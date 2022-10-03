@@ -2,13 +2,15 @@ import numpy as np
 
 def nddm2ddm(mat):
     """
-    makes a copy of a numpy array and converts said copy to a diagonally dominant array if possible
+    makes a copy of a numpy array 
+    then converts said copy to a 
+    diagonally dominant array if possible
     """
     n, m    = mat.shape
-    assert n == m, f"{mat} is not square"
+    if n != m: return np.zeros((0,))
     maxrow  = np.amax(mat, axis=-1)
     restrow = np.sum(mat, axis=-1) - maxrow
-    assert all(maxrow > restrow), f"no dominant diagonal found in {mat}"
+    if any(maxrow < restrow): return np.zeros((0,))
     maxind  = np.argmax(mat, axis=-1)
     res     = mat.copy()
     res[maxind, :] = mat
